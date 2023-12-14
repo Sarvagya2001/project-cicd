@@ -20,5 +20,26 @@ jobs:
         docker login -u sarvagyaagrawal -p ${{ secrets.DOCKER_PASSWORD }}
         docker push sarvagyaagrawal/ems-frontend:latest
         docker push sarvagyaagrawal/ems-backend:latest
+        - name: Deploy to Staging
+  if: success()
+  run: |
+    # Example for deploying with Docker Compose
+    docker-compose -f docker-compose.staging.yml up -d
+
+    # Replace the above line with your actual deployment commands
+    # This could involve pulling Docker images and running containers
+
+- name: Deploy to Production
+  if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+  run: |
+    # Example for deploying with Docker Compose
+    docker-compose -f docker-compose.prod.yml up -d
+
+    # Replace the above line with your actual deployment commands
+    # This could involve pulling Docker images and running containers
+
+    # Additional commands for production-specific tasks
+    # For example, database migrations or other production setup steps
+
 
    
