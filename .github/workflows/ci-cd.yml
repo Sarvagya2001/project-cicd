@@ -10,18 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Use Node.js 16
-      uses: actions/setup-node@v4
-      with:
-        node-version: '16'
-
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Build and Push Docker Images
+    - name: Copy mvnw and grant execute permissions
       run: |
-        docker build -t sarvagyaagrawal/ems-frontend:latest ./fullstack-front
-        docker build -t sarvagyaagrawal/ems-backend:latest ./backend
+        mkdir -p /app
+        cp mvnw /app/mvnw
+        chmod +x /app/mvnw
+
+    - name: Build Docker image
+      run: |
+        docker build -t sarvagyaagrawal/ems-frontend:latest .
+
+    - name: Push Docker image to Docker Hub
+      run: |
         docker login -u sarvagyaagrawal -p ${{ secrets.DOCKER_PASSWORD }}
         docker push sarvagyaagrawal/ems-frontend:latest
-        docker push sarvagyaagrawal/ems-backend:latest
