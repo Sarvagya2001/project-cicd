@@ -1,0 +1,24 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build and Push Docker Images
+      run: |
+        docker build -t sarvagyaagrawal/ems-frontend:latest ./fullstack-frontend
+        docker build -t sarvagyaagrawal/ems-backend:latest ./backend
+        docker login -u sarvagyaagrawal -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push sarvagyaagrawal/ems-frontend:latest
+        docker push sarvagyaagrawal/ems-backend:latest
+
+   
