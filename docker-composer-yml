@@ -1,3 +1,19 @@
+# Use an official Maven image as a base image
+FROM maven:3.8.4-openjdk-17-slim AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the Maven wrapper script and grant execute permissions
+COPY mvnw /app/mvnw
+RUN chmod +x /app/mvnw
+
+# Copy the project files (pom.xml, source code, etc.)
+COPY pom.xml /app
+COPY src /app/src
+
+# Build the project
+RUN ./mvnw clean install
 version: '3'
 
 services:
