@@ -20,7 +20,7 @@ jobs:
 
     - name: Build and Push Docker Images
       run: |
-        docker build -t sarvagyaagrawal/ems-frontend:latest ./fullstack-frontend
+        docker build -t sarvagyaagrawal/ems-frontend:latest ./fullstack-front
         docker build -t sarvagyaagrawal/ems-backend:latest ./backend
         docker login -u sarvagyaagrawal -p ${{ secrets.DOCKER_PASSWORD }}
         docker push sarvagyaagrawal/ems-frontend:latest
